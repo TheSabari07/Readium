@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" 
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.collabia.bookrec.controller.DashboardController"
+            prefWidth="1200" prefHeight="800"
+            style="-fx-background-color: #f5f5f5;">
+    
+    <!-- Top Navigation Bar -->
+    <top>
+        <VBox style="-fx-background-color: #2196F3;">
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 15 20;">
+                <Label text="Readium" style="-fx-text-fill: white; -fx-font-size: 24; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="welcomeLabel" text="Welcome!" 
+                       style="-fx-text-fill: white; -fx-font-size: 14;"/>
+                <Button fx:id="profileButton" text="Profile" onAction="#handleProfile"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+                        style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+            </HBox>
+            
+            <!-- Search Bar -->
+            <HBox alignment="CENTER" style="-fx-padding: 0 20 15 20;">
+                <TextField fx:id="searchField" promptText="Search books by title or author..."
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-padding: 10; -fx-background-radius: 20; -fx-font-size: 14;"
+                           maxWidth="600"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Side Navigation -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-min-width: 200;">
+            <Label text="Menu" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+            <Separator/>
+            
+            <Button fx:id="dashboardButton" text="Dashboard" onAction="#handleDashboard"
+                    maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 5;"/>
+            
+            <Button fx:id="recommendationsButton" text="Recommendations" onAction="#handleRecommendations"
+                    maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: transparent; -fx-text-fill: #333; -fx-padding: 10;"/>
+            
+            <Button fx:id="settingsButton" text="Settings" onAction="#handleSettings"
+                    maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: transparent; -fx-text-fill: #333; -fx-padding: 10;"/>
+        </VBox>
+    </left>
+    
+    <!-- Main Content Area -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <!-- Section Header -->
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label fx:id="sectionTitleLabel" text="Recommended for You" 
+                       style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                <ProgressIndicator fx:id="loadingIndicator" prefWidth="20" prefHeight="20" visible="false"/>
+            </HBox>
+            
+            <!-- Books Grid -->
+            <ScrollPane fitToWidth="true" fitToHeight="true" 
+                        style="-fx-background-color: transparent; -fx-background: transparent;">
+                <GridPane fx:id="booksGridPane" hgap="15" vgap="15" 
+                          style="-fx-padding: 10;">
+                </GridPane>
+            </ScrollPane>
+        </VBox>
+    </center>
+    
+</BorderPane>

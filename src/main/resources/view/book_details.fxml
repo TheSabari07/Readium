@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.collabia.bookrec.controller.BookDetailsController"
+            prefHeight="600.0" prefWidth="800.0">
+    
+    <top>
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+            </padding>
+            
+            <Button fx:id="backButton" text="← Back" onAction="#handleBack"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20.0">
+                <padding>
+                    <Insets top="20.0" right="40.0" bottom="20.0" left="40.0"/>
+                </padding>
+                
+                <HBox spacing="30.0">
+                    <ImageView fx:id="bookCoverImage" fitWidth="200.0" fitHeight="300.0" 
+                               preserveRatio="true"/>
+                    
+                    <VBox spacing="15.0">
+                        <Label fx:id="bookTitleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                        <Label fx:id="bookAuthorLabel" style="-fx-font-size: 16px;"/>
+                        <HBox spacing="5.0">
+                            <Label text="Rating:"/>
+                            <Label fx:id="bookRatingLabel"/>
+                        </HBox>
+                        <Label fx:id="bookGenresLabel"/>
+                        
+                        <HBox spacing="10.0">
+                            <Button fx:id="addToReadButton" text="Mark as Read" onAction="#handleAddToRead"/>
+                            <Button fx:id="addToLikedButton" text="Add to Liked" onAction="#handleAddToLiked"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+                
+                <VBox spacing="10.0">
+                    <Label text="Description" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Text fx:id="bookDescriptionText" wrappingWidth="700.0"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

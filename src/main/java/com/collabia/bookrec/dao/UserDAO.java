@@ -1,9 +1,6 @@
 package com.collabia.bookrec.dao;
 
 import java.util.Optional;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -16,12 +13,10 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 
 /**
- * A mock UserDAO for demonstration purposes.
+ * Data Access Object for User objects in MongoDB.
  */
 public class UserDAO {
     private final MongoCollection<Document> usersCollection;
-    private final Map<String, User> usersByEmail = new HashMap<>();
-    private final AtomicLong idCounter = new AtomicLong();
 
     public UserDAO() {
         MongoDatabase database = MongoDBConnection.getDatabase();
@@ -46,18 +41,10 @@ public class UserDAO {
     }
 
     public void update(User user) {
-        if (user.getId() == null || !ObjectId.isValid(user.getId())) {
+        if (user.getId() == null) {
             throw new IllegalArgumentException("User must have a valid ID to be updated.");
         }
-        Document filter = new Document("_id", new ObjectId(user.getId()));
+        Document filter = new Document("_id", user.getId());
         usersCollection.replaceOne(filter, user.toDocument(), new ReplaceOptions().upsert(true));
-    }
-
-    public User save(User user) {
-        if (user.getId() == null) {
-            user.setId(idCounter.incrementAndGet());
-        }
-        usersByEmail.put(user.getEmail(), user);
-        return user;
     }
 }

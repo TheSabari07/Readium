@@ -1,5 +1,7 @@
 package com.collabia.bookrec.model;
 
+import java.time.LocalDate;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -8,6 +10,8 @@ public class Rating {
     private String userId;
     private String bookId;
     private int rating; // e.g., 1-5
+    private String reviewText;
+    private LocalDate date;
 
     public Rating() {
     }
@@ -49,6 +53,22 @@ public class Rating {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     // MongoDB Document Conversion

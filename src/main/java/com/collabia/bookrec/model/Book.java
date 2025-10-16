@@ -12,7 +12,9 @@ public class Book {
     private List<String> genres;
     private String description;
     private String coverPath;
+    private String coverImageUrl;
     private double averageRating;
+    private String genre;
 
     public Book() {
     }
@@ -75,12 +77,28 @@ public class Book {
         this.coverPath = coverPath;
     }
 
+    public String getCoverImageUrl() {
+        return coverImageUrl;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl) {
+        this.coverImageUrl = coverImageUrl;
+    }
+
     public double getAverageRating() {
         return averageRating;
     }
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     // MongoDB Document Conversion
@@ -90,6 +108,7 @@ public class Book {
                 .append("genres", genres)
                 .append("description", description)
                 .append("coverPath", coverPath)
+                .append("coverImageUrl", coverImageUrl)
                 .append("averageRating", averageRating);
         if (id != null) {
             doc.append("_id", new ObjectId(id));
@@ -105,6 +124,7 @@ public class Book {
         book.setGenres(doc.getList("genres", String.class));
         book.setDescription(doc.getString("description"));
         book.setCoverPath(doc.getString("coverPath"));
+        book.setCoverImageUrl(doc.getString("coverImageUrl"));
         book.setAverageRating(doc.getDouble("averageRating"));
         return book;
     }

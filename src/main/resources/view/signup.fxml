@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.collabia.bookrec.controller.SignupController"
+            prefHeight="600.0" prefWidth="800.0">
+    
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="400.0">
+            <padding>
+                <Insets top="40.0" right="40.0" bottom="40.0" left="40.0"/>
+            </padding>
+            
+            <Text text="Sign Up for Readium" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            
+            <VBox spacing="10.0">
+                <Label text="Username:"/>
+                <TextField fx:id="usernameField" promptText="Enter your username"/>
+            </VBox>
+            
+            <VBox spacing="10.0">
+                <Label text="Email:"/>
+                <TextField fx:id="emailField" promptText="Enter your email"/>
+            </VBox>
+            
+            <VBox spacing="10.0">
+                <Label text="Password:"/>
+                <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+            </VBox>
+            
+            <VBox spacing="10.0">
+                <Label text="Confirm Password:"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm your password"/>
+            </VBox>
+            
+            <Button fx:id="signupButton" text="Sign Up" onAction="#handleSignup" 
+                    prefWidth="200.0" style="-fx-font-size: 14px;"/>
+            
+            <Hyperlink fx:id="loginLink" text="Already have an account? Login" 
+                       onAction="#handleLoginLink"/>
+        </VBox>
+    </center>
+</BorderPane>

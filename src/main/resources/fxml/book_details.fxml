@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" 
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.collabia.bookrec.controller.BookDetailsController"
+            prefWidth="700" prefHeight="600"
+            style="-fx-background-color: white;">
+    
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" 
+              style="-fx-background-color: #2196F3; -fx-padding: 15 20;">
+            <Label text="Book Details" 
+                   style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="closeButton" text="Close" onAction="#handleClose"
+                    style="-fx-background-color: white; -fx-text-fill: #2196F3; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox spacing="20" style="-fx-padding: 30;">
+                
+                <!-- Book Info Section -->
+                <HBox spacing="30" alignment="TOP_LEFT">
+                    <!-- Cover Image -->
+                    <VBox alignment="TOP_CENTER">
+                        <ImageView fx:id="coverImageView" 
+                                   fitWidth="200" fitHeight="300" 
+                                   preserveRatio="true"
+                                   style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 0);"/>
+                    </VBox>
+                    
+                    <!-- Book Details -->
+                    <VBox spacing="12" HBox.hgrow="ALWAYS">
+                        <Label fx:id="titleLabel" text="Book Title" 
+                               wrapText="true"
+                               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        
+                        <Label fx:id="authorLabel" text="by Author Name" 
+                               style="-fx-font-size: 16; -fx-text-fill: #666;"/>
+                        
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Genre:" style="-fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <Label fx:id="genreLabel" text="Fiction" 
+                                   style="-fx-text-fill: #2196F3; -fx-padding: 3 10; -fx-background-color: #E3F2FD; -fx-background-radius: 10;"/>
+                        </HBox>
+                        
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Rating:" style="-fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <Label fx:id="averageRatingLabel" text="★ 0.0 / 5.0" 
+                                   style="-fx-font-size: 16; -fx-text-fill: #FFA500;"/>
+                        </HBox>
+                        
+                        <Separator/>
+                        
+                        <VBox spacing="5">
+                            <Label text="Description" 
+                                   style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <TextArea fx:id="descriptionArea" 
+                                      editable="false" wrapText="true"
+                                      prefHeight="150"
+                                      style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 5;"/>
+                        </VBox>
+                    </VBox>
+                </HBox>
+                
+                <Separator/>
+                
+                <!-- Rating Section -->
+                <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #f9f9f9; -fx-background-radius: 8;">
+                    <Label text="Rate this Book" 
+                           style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Your Rating:" style="-fx-text-fill: #666;"/>
+                        <ComboBox fx:id="ratingComboBox" prefWidth="120"/>
+                    </HBox>
+                    
+                    <VBox spacing="5">
+                        <Label text="Review (Optional):" style="-fx-text-fill: #666;"/>
+                        <TextArea fx:id="reviewTextArea" 
+                                  promptText="Share your thoughts about this book..."
+                                  wrapText="true" prefHeight="100"
+                                  style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;"/>
+                    </VBox>
+                    
+                    <Button fx:id="submitRatingButton" text="Submit Rating" onAction="#handleSubmitRating"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-font-size: 14;"/>
+                </VBox>
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+    
+</BorderPane>
