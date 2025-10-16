@@ -15,8 +15,18 @@ public class Book {
     private String coverImageUrl;
     private double averageRating;
     private String genre;
+    private double rating;
+    private String imageUrl;
 
     public Book() {
+    }
+
+    public Book(String id, String title, String author, List<String> genres, double rating) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genres = genres;
+        this.rating = rating;
     }
 
     public Book(String title, String author, List<String> genres, String description, String coverPath) {
@@ -99,6 +109,22 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     // MongoDB Document Conversion

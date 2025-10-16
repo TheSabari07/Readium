@@ -67,8 +67,3 @@ public class PasswordUtil {
         }
     }
 }
-package bookrec.util;
-
-public class PasswordUtil {
-    
-}

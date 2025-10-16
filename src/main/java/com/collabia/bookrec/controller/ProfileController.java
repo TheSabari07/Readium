@@ -132,7 +132,8 @@ public class ProfileController {
         for (String bookId : readBookIds) {
             Book book = bookDAO.getBookById(bookId);
             if (book != null) {
-                VBox bookCard = BookCardFactory.createSmallBookCard(book, () -> openBookDetails(book));
+                final Book finalBook = book;
+                VBox bookCard = BookCardFactory.createSmallBookCard(finalBook, () -> openBookDetails(finalBook));
                 readBooksPane.getChildren().add(bookCard);
             }
         }
@@ -153,7 +154,8 @@ public class ProfileController {
         for (String bookId : likedBookIds) {
             Book book = bookDAO.getBookById(bookId);
             if (book != null) {
-                VBox bookCard = BookCardFactory.createSmallBookCard(book, () -> openBookDetails(book));
+                final Book finalBook = book;
+                VBox bookCard = BookCardFactory.createSmallBookCard(finalBook, () -> openBookDetails(finalBook));
                 likedBooksPane.getChildren().add(bookCard);
             }
         }
