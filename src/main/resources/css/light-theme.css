@@ -1,0 +1,33 @@
+.root {
+    -fx-base: #ffffff;
+    -fx-background: #f5f5f5;
+    -fx-control-inner-background: #ffffff;
+}
+
+.title {
+    -fx-text-fill: #333333;
+}
+
+.section-title {
+    -fx-text-fill: #555555;
+}
+
+.primary-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.primary-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.danger-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.danger-button:hover {
+    -fx-background-color: #c82333;
+}

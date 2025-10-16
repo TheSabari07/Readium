@@ -68,4 +68,25 @@ public class BookDAO {
         }
         return books;
     }
+
+    public Book getBookById(String bookId) {
+        if (bookId == null || bookId.isEmpty()) {
+            return null;
+        }
+        
+        if (!ObjectId.isValid(bookId)) {
+            return null;
+        }
+        
+        try {
+            Document filter = new Document("_id", new ObjectId(bookId));
+            Document bookDoc = booksCollection.find(filter).first();
+            
+            return bookDoc != null ? Book.fromDocument(bookDoc) : null;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
