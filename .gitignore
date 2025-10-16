@@ -10,7 +10,6 @@
 
 # BlueJ / VSCode / IntelliJ / Eclipse metadata
 *.ctxt
-.vscode/
 .idea/
 *.iml
 *.iws
@@ -58,3 +57,7 @@ $RECYCLE.BIN/
 *.war
 *.ear
 *.jar
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
