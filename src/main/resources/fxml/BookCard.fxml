@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="book-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <!-- Book Cover -->
+    <ImageView styleClass="small-cover" fx:id="bookCover">
+        <Image url="@../images/placeholder-book.png"/>
+    </ImageView>
+    
+    <!-- Book Title -->
+    <Label text="Book Title" styleClass="label-subtitle" wrapText="true"/>
+    
+    <!-- Book Author -->
+    <Label text="Author Name" styleClass="label-secondary"/>
+    
+    <!-- Rating -->
+    <HBox spacing="4" alignment="CENTER_LEFT">
+        <Label text="★" styleClass="rating-star, rating-star-filled"/>
+        <Label text="★" styleClass="rating-star, rating-star-filled"/>
+        <Label text="★" styleClass="rating-star, rating-star-filled"/>
+        <Label text="★" styleClass="rating-star, rating-star-filled"/>
+        <Label text="★" styleClass="rating-star"/>
+        <Label text="(4.0)" styleClass="label-secondary"/>
+    </HBox>
+    
+    <!-- Action Buttons -->
+    <HBox spacing="8">
+        <Button text="View" styleClass="primary-button"/>
+        <Button text="Add to List" styleClass="secondary-button"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="16" xmlns="http://javafx.com/javafx">
+    <!-- Logo/Title -->
+    <Label text="Readium" styleClass="label-title"/>
+    
+    <!-- Spacer -->
+    <Region HBox.hgrow="ALWAYS"/>
+    
+    <!-- Navigation Buttons -->
+    <Button text="Home" styleClass="nav-button, nav-button-active"/>
+    <Button text="Library" styleClass="nav-button"/>
+    <Button text="Discover" styleClass="nav-button"/>
+    <Button text="Settings" styleClass="nav-button"/>
+    
+    <!-- Search Bar -->
+    <TextField promptText="Search books..." styleClass="search-bar"/>
+</HBox>

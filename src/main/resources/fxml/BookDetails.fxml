@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="24" styleClass="card" xmlns="http://javafx.com/javafx">
+    <HBox spacing="32">
+        <!-- Big Book Cover -->
+        <ImageView styleClass="big-cover" fx:id="bookCoverBig">
+            <Image url="@../images/placeholder-book.png"/>
+        </ImageView>
+        
+        <!-- Book Information -->
+        <VBox spacing="16" VBox.vgrow="ALWAYS">
+            <Label text="Book Title" styleClass="label-title"/>
+            <Label text="by Author Name" styleClass="label-subtitle"/>
+            
+            <!-- Rating -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="★★★★☆" style="-fx-font-size: 24px; -fx-text-fill: #FBBF24;"/>
+                <Label text="4.0 / 5.0" styleClass="label-secondary"/>
+            </HBox>
+            
+            <!-- Description -->
+            <Label text="Book description goes here..." styleClass="label" wrapText="true"/>
+            
+            <!-- Genre Tags -->
+            <HBox spacing="8">
+                <Label text="Fiction" styleClass="card" style="-fx-padding: 4 12; -fx-background-color: derive(-fx-accent-primary, 90%);"/>
+                <Label text="Mystery" styleClass="card" style="-fx-padding: 4 12; -fx-background-color: derive(-fx-accent-primary, 90%);"/>
+            </HBox>
+            
+            <!-- Action Buttons -->
+            <HBox spacing="12">
+                <Button text="Add to Reading List" styleClass="primary-button"/>
+                <Button text="Mark as Read" styleClass="secondary-button"/>
+                <Button text="Rate Book" styleClass="secondary-button"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>
