@@ -1,10 +1,9 @@
 package com.collabia.bookrec.service;
 
-import java.util.AbstractMap;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,12 +12,42 @@ import com.collabia.bookrec.dao.BookDAO;
 import com.collabia.bookrec.model.Book;
 import com.collabia.bookrec.model.User;
 
+/**
+ * RecommendationEngine provides content-based book recommendations for users.
+ * Uses a hybrid scoring algorithm combining genre overlap, author preferences, and ratings.
+ */
 public class RecommendationEngine {
 
     private final BookDAO bookDAO;
 
+    /**
+     * Constructs a RecommendationEngine with the specified BookDAO.
+     *
+     * @param bookDAO the data access object for retrieving books
+     */
     public RecommendationEngine(BookDAO bookDAO) {
         this.bookDAO = bookDAO;
+    }
+
+    public RecommendationEngine() {
+        this.bookDAO = null;
+    }
+
+    public List<Book> getRecommendations(User user, List<Book> availableBooks) {
+        if (user == null || availableBooks == null) {
+            return new ArrayList<>();
+        }
+
+        Set<String> readBookIds = new HashSet<>(user.getReadBooks() != null ? user.getReadBooks() : new ArrayList<>());
+        List<String> favoriteGenres = user.getFavoriteGenres() != null ? user.getFavoriteGenres() : new ArrayList<>();
+
+        // Filter out books already read and score remaining books
+        return availableBooks.stream()
+                .filter(book -> !readBookIds.contains(book.getId()))
+                .map(book -> new ScoredBook(book, calculateScore(book, favoriteGenres)))
+                .sorted(Comparator.comparingDouble(ScoredBook::getScore).reversed())
+                .map(ScoredBook::getBook)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -43,45 +72,123 @@ public class RecommendationEngine {
      * @return A list of recommended books, sorted by relevance score in descending order.
      */
     public List<Book> recommendForUser(User user, int limit) {
-        List<Book> allBooks = bookDAO.findAll();
-        Set<String> readBookIds = user.getReadBooks() == null ? Collections.emptySet() : new HashSet<>(user.getReadBooks());
-        Set<String> userFavoriteGenres = user.getFavoriteGenres() == null ? Collections.emptySet() : new HashSet<>(user.getFavoriteGenres());
+        if (bookDAO == null) {
+            return new ArrayList<>();
+        }
 
-        // Get authors of books the user liked to give an author bonus.
-        List<String> likedBooks = user.getLikedBooks() == null ? Collections.emptyList() : user.getLikedBooks();
-        Set<String> likedAuthors = likedBooks.stream()
-                .map(bookDAO::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Book::getAuthor)
-                .collect(Collectors.toSet());
+        List<Book> allBooks = bookDAO.getAllBooks();
+        Set<String> readBookIds = new HashSet<>(user.getReadBooks() != null ? user.getReadBooks() : new ArrayList<>());
+        Set<String> preferredGenres = new HashSet<>(user.getFavoriteGenres() != null ? user.getFavoriteGenres() : new ArrayList<>());
+        
+        // Derive preferred authors from books the user has read and liked
+        Set<String> preferredAuthors = new HashSet<>();
+        if (user.getReadBooks() != null) {
+            for (String bookId : user.getReadBooks()) {
+                Optional<Book> readBook = allBooks.stream()
+                        .filter(b -> b.getId().equals(bookId))
+                        .findFirst();
+                if (readBook.isPresent()) {
+                    preferredAuthors.add(readBook.get().getAuthor());
+                }
+            }
+        }
 
-        return allBooks.stream()
-                .filter(book -> !readBookIds.contains(book.getId()))
-                .map(book -> {
-                    double score = 0.0;
+        // List to store books with their calculated scores
+        List<BookScore> bookScores = new ArrayList<>();
 
-                    // 1. Genre Overlap
-                    Set<String> bookGenres = new HashSet<>(book.getGenres());
-                    bookGenres.retainAll(userFavoriteGenres);
-                    score += bookGenres.size();
+        // Calculate score for each unread book
+        for (Book book : allBooks) {
+            // Skip books already read by the user
+            if (readBookIds.contains(book.getId())) {
+                continue;
+            }
 
-                    // 2. Author Match Bonus
-                    if (likedAuthors.contains(book.getAuthor())) {
-                        score += 1.0;
-                    }
+            // Calculate genre overlap count
+            int genreOverlapCount = 0;
+            for (String genre : book.getGenres()) {
+                if (preferredGenres.contains(genre)) {
+                    genreOverlapCount++;
+                }
+            }
 
-                    // 3. Weighted Rating
-                    if (book.getAverageRating() > 0) {
-                        score += (book.getAverageRating() / 5.0) * 0.3;
-                    }
+            // Check author match
+            int authorMatch = preferredAuthors.contains(book.getAuthor()) ? 1 : 0;
 
-                    return new AbstractMap.SimpleEntry<>(book, score);
-                })
-                .filter(entry -> entry.getValue() > 0)
-                .sorted(Map.Entry.<Book, Double>comparingByValue().reversed())
-                .limit(limit)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+            // Normalize rating (assuming rating is out of 5)
+            double normalizedAvgRating = book.getRating() / 5.0;
+
+            // Calculate final score
+            double score = genreOverlapCount + authorMatch + (normalizedAvgRating * 0.3);
+
+            bookScores.add(new BookScore(book, score));
+        }
+
+        // Sort by score in descending order
+        bookScores.sort(Comparator.comparingDouble(BookScore::getScore).reversed());
+
+        // Extract top N books
+        List<Book> recommendations = new ArrayList<>();
+        int count = Math.min(limit, bookScores.size());
+        for (int i = 0; i < count; i++) {
+            recommendations.add(bookScores.get(i).getBook());
+        }
+
+        return recommendations;
+    }
+
+    private double calculateScore(Book book, List<String> favoriteGenres) {
+        double score = 0.0;
+
+        // Base score from rating (0-5 range)
+        score += book.getRating() * 10;
+
+        // Genre overlap bonus (up to 30 points)
+        if (book.getGenres() != null && !favoriteGenres.isEmpty()) {
+            long genreMatches = book.getGenres().stream()
+                    .filter(favoriteGenres::contains)
+                    .count();
+            score += genreMatches * 15;
+        }
+
+        return score;
+    }
+
+    private static class ScoredBook {
+        private final Book book;
+        private final double score;
+
+        public ScoredBook(Book book, double score) {
+            this.book = book;
+            this.score = score;
+        }
+
+        public Book getBook() {
+            return book;
+        }
+
+        public double getScore() {
+            return score;
+        }
+    }
+
+    /**
+     * Inner class to hold a book and its calculated recommendation score.
+     */
+    private static class BookScore {
+        private final Book book;
+        private final double score;
+
+        public BookScore(Book book, double score) {
+            this.book = book;
+            this.score = score;
+        }
+
+        public Book getBook() {
+            return book;
+        }
+
+        public double getScore() {
+            return score;
+        }
     }
 }
