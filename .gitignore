@@ -1,0 +1,60 @@
+# ------------------------------
+# ☕ Java / Maven project ignores
+# ------------------------------
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ / VSCode / IntelliJ / Eclipse metadata
+*.ctxt
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+target/
+out/
+
+# Maven
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ------------------------------
+# 💻 OS-specific files
+# ------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ------------------------------
+# 🧰 Tool / environment folders
+# ------------------------------
+
+# Qodo / editor metadata
+.qodo/
+
+# ------------------------------
+# ⚙️ Optional: dependency caches
+# ------------------------------
+
+# Java / build caches
+*.war
+*.ear
+*.jar
