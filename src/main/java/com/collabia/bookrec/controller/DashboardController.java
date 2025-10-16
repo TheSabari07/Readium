@@ -1,8 +1,11 @@
 package com.collabia.bookrec.controller;
 
+import com.collabia.bookrec.model.User;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -30,6 +33,11 @@ public class DashboardController {
     private GridPane booksGridPane;
 
     @FXML
+    private Label welcomeLabel;
+
+    private User currentUser;
+
+    @FXML
     public void initialize() {
         // Initialize controller
         // Load books and populate grid
@@ -38,6 +46,17 @@ public class DashboardController {
 
     private void loadBooks() {
         // TODO: Load books from service and populate booksGridPane
+    }
+
+    public void setUser(User user) {
+        this.currentUser = user;
+        updateWelcomeMessage();
+    }
+
+    private void updateWelcomeMessage() {
+        if (currentUser != null) {
+            welcomeLabel.setText("Welcome, " + currentUser.getName() + "!");
+        }
     }
 
     @FXML
