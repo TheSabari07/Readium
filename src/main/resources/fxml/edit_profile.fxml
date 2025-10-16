@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.collabia.bookrec.controller.EditProfileController"
+      spacing="20" style="-fx-background-color: white; -fx-padding: 30;"
+      prefWidth="500" prefHeight="600">
+    
+    <Label text="Edit Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    
+    <VBox spacing="10">
+        <Label text="Name" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="nameField" promptText="Enter your name"
+                   style="-fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+    </VBox>
+    
+    <VBox spacing="10">
+        <Label text="Email" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="emailField" promptText="Enter your email"
+                   style="-fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+    </VBox>
+    
+    <VBox spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="Favorite Genres (select multiple)" style="-fx-font-weight: bold;"/>
+        <ListView fx:id="genresListView" VBox.vgrow="ALWAYS"
+                  style="-fx-border-color: #ddd; -fx-border-radius: 5;"/>
+        <Label text="Tip: Hold Ctrl/Cmd to select multiple genres" style="-fx-text-fill: #999; -fx-font-size: 11px;"/>
+    </VBox>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"
+                style="-fx-background-color: #e0e0e0; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+        <Button fx:id="saveButton" text="Save Changes" onAction="#handleSave"
+                style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+    </HBox>
+    
+</VBox>

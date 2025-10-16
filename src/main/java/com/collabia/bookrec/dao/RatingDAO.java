@@ -18,10 +18,11 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 
 public class RatingDAO {
+    private final MongoDatabase database;
     private final MongoCollection<Document> ratingsCollection;
 
     public RatingDAO() {
-        MongoDatabase database = MongoDBConnection.getDatabase();
+        this.database = MongoDBConnection.getDatabase();
         this.ratingsCollection = database.getCollection("ratings");
     }
 
@@ -41,6 +42,36 @@ public class RatingDAO {
             return new ArrayList<>();
         }
         return findRatingsByFilter(Filters.eq("bookId", new ObjectId(bookId)));
+    }
+
+    public List<Rating> getRatingsByUserId(String userId) {
+        List<Rating> ratings = new ArrayList<>();
+        
+        if (userId == null || userId.isEmpty()) {
+            return ratings;
+        }
+        
+        try {
+            if (!ObjectId.isValid(userId)) {
+                return ratings;
+            }
+            
+            Document filter = new Document("userId", new ObjectId(userId));
+            
+            try (MongoCursor<Document> cursor = ratingsCollection.find(filter).iterator()) {
+                while (cursor.hasNext()) {
+                    Rating rating = Rating.fromDocument(cursor.next());
+                    if (rating != null) {
+                        ratings.add(rating);
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return ratings;
     }
 
     private List<Rating> findRatingsByFilter(Bson filter) {

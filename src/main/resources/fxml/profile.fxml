@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.collabia.bookrec.controller.ProfileController"
+      spacing="20" style="-fx-background-color: #f5f7fa;">
+    
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: white; -fx-padding: 20;">
+        <Button fx:id="backButton" text="← Back" onAction="#handleBack"
+                style="-fx-background-color: transparent; -fx-text-fill: #667eea; -fx-cursor: hand;"/>
+        <Label text="My Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="editProfileButton" text="Edit Profile" onAction="#handleEditProfile"
+                style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+        <Button fx:id="exportHistoryButton" text="Export History" onAction="#handleExportHistory"
+                style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+    </HBox>
+    
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+        <VBox spacing="20" style="-fx-padding: 20;">
+            
+            <!-- User Info Card -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <Label text="Profile Information" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                
+                <VBox spacing="5">
+                    <Label text="Name" style="-fx-text-fill: #666; -fx-font-size: 12px;"/>
+                    <Label fx:id="nameLabel" text="John Doe" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Email" style="-fx-text-fill: #666; -fx-font-size: 12px;"/>
+                    <Label fx:id="emailLabel" text="john@example.com" style="-fx-font-size: 16px;"/>
+                </VBox>
+                
+                <VBox spacing="10">
+                    <Label text="Favorite Genres" style="-fx-text-fill: #666; -fx-font-size: 12px;"/>
+                    <FlowPane fx:id="favoriteGenresPane" hgap="10" vgap="10"/>
+                </VBox>
+            </VBox>
+            
+            <!-- Read Books Section -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Books I've Read" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Label fx:id="readBooksCountLabel" text="0 books" style="-fx-text-fill: #667eea; -fx-font-size: 14px;"/>
+                </HBox>
+                
+                <ScrollPane fitToHeight="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+                    <FlowPane fx:id="readBooksPane" hgap="15" vgap="15" prefWrapLength="800"/>
+                </ScrollPane>
+            </VBox>
+            
+            <!-- Liked Books Section -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Books I Like" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Label fx:id="likedBooksCountLabel" text="0 books" style="-fx-text-fill: #667eea; -fx-font-size: 14px;"/>
+                </HBox>
+                
+                <ScrollPane fitToHeight="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+                    <FlowPane fx:id="likedBooksPane" hgap="15" vgap="15" prefWrapLength="800"/>
+                </ScrollPane>
+            </VBox>
+            
+        </VBox>
+    </ScrollPane>
+    
+</VBox>

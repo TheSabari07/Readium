@@ -47,4 +47,31 @@ public class UserDAO {
         Document filter = new Document("_id", user.getId());
         usersCollection.replaceOne(filter, user.toDocument(), new ReplaceOptions().upsert(true));
     }
+
+    public boolean updateUser(User user) {
+        if (user == null || user.getId() == null) {
+            return false;
+        }
+        
+        try {
+            MongoCollection<Document> collection = usersCollection;
+            
+            Document updateDoc = new Document()
+                .append("name", user.getName())
+                .append("email", user.getEmail())
+                .append("favoriteGenres", user.getFavoriteGenres())
+                .append("readBooks", user.getReadBooks())
+                .append("likedBooks", user.getLikedBooks());
+            
+            Document filter = new Document("_id", user.getId());
+            Document update = new Document("$set", updateDoc);
+            
+            collection.updateOne(filter, update);
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
