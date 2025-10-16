@@ -1,6 +1,9 @@
 package com.collabia.bookrec.dao;
 
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -12,8 +15,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 
+/**
+ * A mock UserDAO for demonstration purposes.
+ */
 public class UserDAO {
     private final MongoCollection<Document> usersCollection;
+    private final Map<String, User> usersByEmail = new HashMap<>();
+    private final AtomicLong idCounter = new AtomicLong();
 
     public UserDAO() {
         MongoDatabase database = MongoDBConnection.getDatabase();
@@ -43,5 +51,13 @@ public class UserDAO {
         }
         Document filter = new Document("_id", new ObjectId(user.getId()));
         usersCollection.replaceOne(filter, user.toDocument(), new ReplaceOptions().upsert(true));
+    }
+
+    public User save(User user) {
+        if (user.getId() == null) {
+            user.setId(idCounter.incrementAndGet());
+        }
+        usersByEmail.put(user.getEmail(), user);
+        return user;
     }
 }

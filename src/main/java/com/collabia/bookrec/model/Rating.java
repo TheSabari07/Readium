@@ -1,7 +1,5 @@
 package com.collabia.bookrec.model;
 
-import java.util.Date;
-
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -9,19 +7,15 @@ public class Rating {
     private String id;
     private String userId;
     private String bookId;
-    private int rating; // 1-5
-    private String review;
-    private Date createdAt;
+    private int rating; // e.g., 1-5
 
     public Rating() {
     }
 
-    public Rating(String userId, String bookId, int rating, String review) {
+    public Rating(String userId, String bookId, int rating) {
         this.userId = userId;
         this.bookId = bookId;
         this.rating = rating;
-        this.review = review;
-        this.createdAt = new Date();
     }
 
     // Getters and Setters
@@ -57,29 +51,11 @@ public class Rating {
         this.rating = rating;
     }
 
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     // MongoDB Document Conversion
     public Document toDocument() {
-        Document doc = new Document("userId", userId)
-                .append("bookId", bookId)
-                .append("rating", rating)
-                .append("review", review)
-                .append("createdAt", createdAt);
+        Document doc = new Document("userId", new ObjectId(userId))
+                .append("bookId", new ObjectId(bookId))
+                .append("rating", rating);
         if (id != null) {
             doc.append("_id", new ObjectId(id));
         }
@@ -87,13 +63,14 @@ public class Rating {
     }
 
     public static Rating fromDocument(Document doc) {
+        if (doc == null) {
+            return null;
+        }
         Rating rating = new Rating();
         rating.setId(doc.getObjectId("_id").toHexString());
-        rating.setUserId(doc.getString("userId"));
-        rating.setBookId(doc.getString("bookId"));
+        rating.setUserId(doc.getObjectId("userId").toHexString());
+        rating.setBookId(doc.getObjectId("bookId").toHexString());
         rating.setRating(doc.getInteger("rating"));
-        rating.setReview(doc.getString("review"));
-        rating.setCreatedAt(doc.getDate("createdAt"));
         return rating;
     }
 }
